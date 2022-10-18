@@ -102,35 +102,44 @@ public class Country {
     }
 
     public City getMostPopulousCity(){
-        int maxPopulation = Integer.MIN_VALUE;
-        int targetIdx = 0;
-        for (int i = 0; i < cities.length ; i++) {
-            if (cities[i].getPopulation() > maxPopulation){
-                maxPopulation = cities[i].getPopulation();
-                targetIdx = i;
-            }
-        }
-        return cities[targetIdx];
-    }
-    public void sortCitiesByName(){
-        City[] arr = Arrays.copyOf(cities, cities.length);
-        for (int i = 0; i < arr.length; i++) {
-            int m = i;
-            City temp;
-            for (int j = i+1; j < arr.length-1; j++) {
-                if (arr[j].getName().compareTo(arr[m].getName()) < 0){
-                    m = j;
+        if (cities != null) {
+            int maxPopulation = Integer.MIN_VALUE;
+            int targetIdx = 0;
+            for (int i = 0; i < cities.length ; i++) {
+                if (cities[i].getPopulation() > maxPopulation){
+                    maxPopulation = cities[i].getPopulation();
+                    targetIdx = i;
                 }
             }
-            temp = arr[i];
-            arr[i] = arr[m];
-            arr[i] = temp;
+            return cities[targetIdx];
+        } else {
+            return null;
         }
-        StringBuilder output = new StringBuilder("The cities sorted by name are: \n\n");
-        for (City city : arr) {
-            if (city != null) {
-                output.append(city).append("\n");
+    }
+    public void sortCitiesByName(){
+        StringBuilder output;
+        if (cities != null) {
+            City[] arr = Arrays.copyOf(cities, cities.length);
+            for (int i = 0; i < arr.length; i++) {
+                int m = i;
+                City temp;
+                for (int j = i+1; j < arr.length-1; j++) {
+                    if (arr[j].getName().compareTo(arr[m].getName()) < 0){
+                        m = j;
+                    }
+                }
+                temp = arr[i];
+                arr[i] = arr[m];
+                arr[i] = temp;
             }
+            output = new StringBuilder("The cities sorted by name are: \n\n");
+            for (City city : arr) {
+                if (city != null) {
+                    output.append(city).append("\n");
+                }
+            }
+        } else {
+            output = new StringBuilder("Cities array is empty!");
         }
         JOptionPane.showMessageDialog(null, output, "Cities Sorted by Name", JOptionPane.INFORMATION_MESSAGE);
     }
